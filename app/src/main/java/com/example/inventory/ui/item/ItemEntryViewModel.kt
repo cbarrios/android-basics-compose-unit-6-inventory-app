@@ -38,6 +38,12 @@ class ItemEntryViewModel(private val itemsRepository: ItemsRepository) : ViewMod
      * a validation for input values.
      */
     fun updateUiState(newItemUiState: ItemUiState) {
-        itemUiState = newItemUiState.copy( actionEnabled = newItemUiState.isValid())
+        itemUiState = newItemUiState.copy(actionEnabled = newItemUiState.isValid())
+    }
+
+    suspend fun saveItem() {
+        if (itemUiState.isValid()) {
+            itemsRepository.insertItem(itemUiState.toItem())
+        }
     }
 }
